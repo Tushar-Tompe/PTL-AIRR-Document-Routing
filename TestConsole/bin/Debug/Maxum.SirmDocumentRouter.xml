@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Maxum.SirmDocumentRouter</name>
+    </assembly>
+    <members>
+        <member name="T:Maxum.EDM.CommonDataSet">
+             <summary>
+            Represents a strongly typed in-memory cache of data.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.GetLocationCollatorPathsDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.ListSirmDocumentTypeInfoDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.GetDoclinkPropertysDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.GetLocationCollatorPathsRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.ListSirmDocumentTypeInfoRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.GetDoclinkPropertysRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.GetLocationCollatorPathsRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.ListSirmDocumentTypeInfoRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSet.GetDoclinkPropertysRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSetTableAdapters.GetLocationCollatorPathsTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSetTableAdapters.ListSirmDocumentTypeInfoTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSetTableAdapters.GetDoclinkPropertysTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSetTableAdapters.QueriesTableAdapter">
+             <summary>
+            Represents the connection and commands used to retrieve and save data.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSetTableAdapters.TableAdapterManager">
+             <summary>
+            TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+            </summary>
+        </member>
+        <member name="M:Maxum.EDM.CommonDataSetTableAdapters.TableAdapterManager.UpdateUpdatedRows(Maxum.EDM.CommonDataSet,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Update rows in top-down order.
+            </summary>
+        </member>
+        <member name="M:Maxum.EDM.CommonDataSetTableAdapters.TableAdapterManager.UpdateInsertedRows(Maxum.EDM.CommonDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Insert rows in top-down order.
+            </summary>
+        </member>
+        <member name="M:Maxum.EDM.CommonDataSetTableAdapters.TableAdapterManager.UpdateDeletedRows(Maxum.EDM.CommonDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Delete rows in bottom-up order.
+            </summary>
+        </member>
+        <member name="M:Maxum.EDM.CommonDataSetTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+             <summary>
+            Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+            </summary>
+        </member>
+        <member name="M:Maxum.EDM.CommonDataSetTableAdapters.TableAdapterManager.UpdateAll(Maxum.EDM.CommonDataSet)">
+             <summary>
+            Update all changes to the dataset.
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSetTableAdapters.TableAdapterManager.UpdateOrderOption">
+             <summary>
+            Update Order Option
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.CommonDataSetTableAdapters.TableAdapterManager.SelfReferenceComparer">
+             <summary>
+            Used to sort self-referenced table's rows
+            </summary>
+        </member>
+        <member name="T:Maxum.EDM.ImageProcessing">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Maxum.EDM.ImageProcessing.DocumentIsRecognized">
+            <summary>
+             If you don't want a document to be validated then set the IsSirmProcess bit = 0 in the Common.Document table.
+             Currently Invoices are not validated because they come from within the system and are accurately named.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Maxum.EDM.ProcessCache">
+            <summary>
+            The data collected and passed around for processing.
+            </summary>
+        </member>
+    </members>
+</doc>
