@@ -3,23 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Maxum.EDM;
+using NLog;
 
 namespace TestConsole
 {
    static class Program
    {
-      
-      static void Main(string[] args)
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        static void Main(string[] args)
       {
 
             //GetLocationCollatorPathsTest();
             //ListDocumentTypesTest();
+            try
+            {
+                Logger.Info("Entering into main method");
+                Logger.Info("Intialized ImageProcessing");
+                ImageProcessing ip = new ImageProcessing();
+                Logger.Info("Invoked StartProcessing");
+                ip.StartProcessing();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Received Error: ");
+            }
 
-            ImageProcessing ip = new ImageProcessing();
-            ip.StartProcessing();
-            
 
-            InsertImageIodestinationTest();
+            //InsertImageIodestinationTest();
             //SetupUnknownFoldersTest();
 
 
@@ -54,6 +65,7 @@ namespace TestConsole
 
         static void InsertImageIodestinationTest()
         {
+
             CommonData cdata = new CommonData();
             Maxum.EDM.CommonDataSetTableAdapters.QueriesTableAdapter ta = new Maxum.EDM.CommonDataSetTableAdapters.QueriesTableAdapter();
             ta.InsertImageIoMessageDestination(@"\\Test\Test.tif", "billsTest");

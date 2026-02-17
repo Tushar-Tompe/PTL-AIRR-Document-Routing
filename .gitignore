@@ -1,2 +1,70 @@
-workflow.txt
+# Visual Studio 2015+
 .vs/
+*.suo
+*.user
+*.pdb
+*.tmp
+*.log
+*.cache
+*.obj
+*.exe
+*.dll
+*.ilk
+*.aps
+*.bsc
+*.ncb
+*.sbr
+*.res
+*.pch
+*.idb
+*.opt
+*.aps
+*.bak
+*.exp
+*.lib
+*.obj
+*.pch
+*.pdb
+*.ipch
+*.iobj
+*.o
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+[Tt]emp/
+[Tt]mp/
+
+# NuGet packages
+packages/
+
+# Project-specific temp/build files
+*.csproj.user
+*.csproj.vspscc
+*.csproj.FileListAbsolute.txt
+*.csproj.CoreCompileInputs.cache
+*.csproj.AssemblyReference.cache
+*.csproj.CopyComplete
+*.Up2Date
+*/bin/Debug/
+*/obj/Debug/
+*/bin/Release/
+*/obj/Release/
+
+# NLog
+*.nlog
+NLog.config
+NLog.xsd
+*/bin/Debug/NLog.config
+*/bin/Debug/NLog.dll
+*/bin/Debug/NLog.xml
+*/bin/Debug/logs/
+
+# User-generated files (from our session)
+Document Router Tables.csv
+Sttored_Procedures.txt
+detailed_workflow_with_data.txt
+setup_guide.txt
+TestEnv/

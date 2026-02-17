@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Maxum.EDM.CommonDataSetTableAdapters;
+using NLog;
 
 
 namespace Maxum.EDM
@@ -10,6 +11,7 @@ namespace Maxum.EDM
 
     public class CommonData
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private CommonDataSet.ListSirmDocumentTypeInfoDataTable _documentInfo = null;
         private CommonDataSet.GetLocationCollatorPathsDataTable _collatorInfo = null;
         private CommonDataSet.GetDoclinkPropertysDataTable _docPropertys = null;

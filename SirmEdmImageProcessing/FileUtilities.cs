@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Xml.Linq;
+using NLog;
 namespace Maxum.EDM
 {
    internal static class FileUtilities
    {
       private static Properties.Settings _mySetings = Properties.Settings.Default;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-      internal static void SetupUnknownFolders(ref ProcessCache cache)
+
+        internal static void SetupUnknownFolders(ref ProcessCache cache)
       {
-         string todaysFolder = DateTime.Now.ToString("yyyy-MM-dd");
+            Logger.Info($"Starting SetupUnknownFolders for directory: {cache.UnknownDirectory ?? "null"}");
+            string todaysFolder = DateTime.Now.ToString("yyyy-MM-dd");
          DirectoryInfo[] UnknownDirectoryInfo = null;
 
          try
@@ -42,30 +46,67 @@ namespace Maxum.EDM
                   {
                      cache.UnknownWorkingFolder = names[0].Name;
                      cache.UnknownFolderFileCount = names[0].GetFiles().Length;
+                     Logger.Info($"Found existing unknown working folder: {cache.UnknownWorkingFolder} with {cache.UnknownFolderFileCount} files.");
+                  }
+                  else
+                  {
+                     Logger.Info($"No suitable existing unknown working folder found for today's date: {todaysFolder}. A new one will be created.");
                   }
                }
             }
+            else
+            {
+                 Logger.Info($"UnknownDirectoryInfo is null for: {cache.UnknownDirectory ?? "null"}. A new one will be created.");
+            }
+            Logger.Info("Finished SetupUnknownFolders.");
          }
-         catch (Exception)
+         catch (Exception ex)
          {
-
+            Logger.Error(ex, "Failed to set up unknown folders for directory: " + cache.UnknownDirectory);
             throw;
          }
       }
       
       internal static bool WriteValidationXML(ref ProcessCache cache)
       {
-         bool ret;
+         Logger.Info($"Starting WriteValidationXML for file: {cache.WorkingFilePath}");
+         bool ret = false;
          try
          {
             // Write the file then the xml data
             if (!Directory.Exists(cache.ValidationArchiveDirectory))
             {
-               Directory.CreateDirectory(cache.ValidationArchiveDirectory);
+               Logger.Info($"Validation archive directory does not exist. Attempting to create: {cache.ValidationArchiveDirectory}");
+                    try
+                    {
+                        Directory.CreateDirectory(cache.ValidationArchiveDirectory);
+                        Logger.Info($"Successfully created validation archive directory: {cache.ValidationArchiveDirectory}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Failed to Create Directory on " + cache.ValidationArchiveDirectory);
+                        throw; // Re-throw if directory creation is critical
+                    }
             }
             if (File.Exists(cache.WorkingFilePath))
             {
-               File.Copy(cache.WorkingFilePath, Path.Combine(cache.ValidationArchiveDirectory, cache.WorkingFile),true);
+                string destinationPath = Path.Combine(cache.ValidationArchiveDirectory, cache.WorkingFile);
+                Logger.Info($"Attempting to copy file from {cache.WorkingFilePath} to {destinationPath}");
+                    try
+                    {
+                        File.Copy(cache.WorkingFilePath, destinationPath, true);
+                        Logger.Info($"Successfully copied file from {cache.WorkingFilePath} to {destinationPath}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Failed to Copy " + cache.WorkingFile + " From " + cache.WorkingFilePath + " To " +  cache.ValidationArchiveDirectory);
+                        throw; // Re-throw if file copy is critical
+                    }
+            }
+            else
+            {
+                Logger.Warn($"Working file does not exist, cannot copy: {cache.WorkingFilePath}");
+                throw new FileNotFoundException($"Working file not found: {cache.WorkingFilePath}");
             }
             
 
@@ -77,13 +118,25 @@ namespace Maxum.EDM
                   );
 
             string savePath = Path.Combine(cache.ValidationArchiveDirectory, Path.GetFileNameWithoutExtension( cache.WorkingFile) + ".xml");
-            validation.Save(savePath);
-            ret = true;
-            
+            Logger.Info($"Attempting to save XML validation file to: {savePath}");
+                try
+                {
+                    validation.Save(savePath);
+                    Logger.Info($"Successfully saved XML validation file to: {savePath}");
+                    ret = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Failed to save XML validation file to: " +  savePath);
+                    throw;
+                }
+            Logger.Info($"Finished WriteValidationXML for file: {cache.WorkingFilePath}. Result: {ret}");
          }
-         catch (Exception)
+         catch (Exception ex)
          {
-            throw;
+                Logger.Error(ex, "Overall failure in WriteValidationXML for: " + cache.WorkingFilePath);
+                throw;
          }
          finally
          {
@@ -127,8 +180,9 @@ namespace Maxum.EDM
         }
         catch (Exception e)
         {
-
-           throw new IndexOutOfRangeException("Position: " + pos.ToString() + "   DirName: " + dirName + @"\n" + e.ToString());
+                Logger.Error(e, "Error cleaning directory name: " + directory);
+                directory.TrimEnd(Path.DirectorySeparatorChar);
+                //throw new IndexOutOfRangeException("Position: " + pos.ToString() + "   DirName: " + dirName + @"\n" + e.ToString());
         }
         return dirName;
      }

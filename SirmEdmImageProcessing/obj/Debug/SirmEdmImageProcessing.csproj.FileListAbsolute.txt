@@ -31,3 +31,16 @@ C:\Development\VS2005\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\Al
 C:\Development\VS2005\SirmEdmImageProcessing\SirmEdmImageProcessing\obj\Debug\SirmEdmImageProcessing.csproj.CopyComplete
 C:\Development\VS2005\SirmEdmImageProcessing\SirmEdmImageProcessing\obj\Debug\Maxum.SirmDocumentRouter.pdb
 C:\Development\VS2005\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\ServiceModelEx.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\Maxum.SirmDocumentRouter.dll.config
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\Maxum.SirmDocumentRouter.XML
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\Maxum.SirmDocumentRouter.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\Maxum.SirmDocumentRouter.pdb
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\ServiceModelEx.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\obj\Debug\SirmEdmImageProcessing.csproj.AssemblyReference.cache
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\obj\Debug\SirmEdmImageProcessing.csproj.CoreCompileInputs.cache
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\obj\Debug\SirmEdmI.7825E366.Up2Date
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\obj\Debug\Maxum.SirmDocumentRouter.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\obj\Debug\Maxum.SirmDocumentRouter.pdb
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\NLog.config
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\NLog.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessing\bin\Debug\NLog.xml

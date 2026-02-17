@@ -33,3 +33,32 @@ C:\Development\VS2005\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\
 C:\Development\VS2005\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Rel.Security.dll
 C:\Development\VS2005\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouter.pdb
 C:\Development\VS2005\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouter.xml
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\NLog.config
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouterWS.exe.config
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouterWS.exe
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouterWS.pdb
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouter.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\NLog.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\ServiceModelEx.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Biz.Document.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Framework.Core.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Biz.App.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Framework.Biz.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Biz.System.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Rel.Document.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Framework.BizSupport.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Biz.DynamicUI.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Biz.Security.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Altec.Rel.System.dll
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouter.pdb
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouter.xml
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\Maxum.SirmDocumentRouter.dll.config
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\bin\Debug\NLog.xml
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\obj\x86\Debug\SirmEdmImageProcessingWS.csproj.AssemblyReference.cache
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\obj\x86\Debug\Maxum.EDM.ProjectInstaller.resources
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\obj\x86\Debug\Maxum.EDM.SirmDocumentRoutingService.resources
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\obj\x86\Debug\SirmEdmImageProcessingWS.csproj.GenerateResource.cache
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\obj\x86\Debug\SirmEdmImageProcessingWS.csproj.CoreCompileInputs.cache
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\obj\x86\Debug\SirmEdmI.3A18A6F7.Up2Date
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\obj\x86\Debug\Maxum.SirmDocumentRouterWS.exe
+C:\Users\Tushar Tompe\Desktop\Document Routing\SirmEdmImageProcessing\SirmEdmImageProcessingWS\obj\x86\Debug\Maxum.SirmDocumentRouterWS.pdb
