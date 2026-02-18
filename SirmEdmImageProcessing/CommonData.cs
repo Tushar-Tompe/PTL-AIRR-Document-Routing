@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Maxum.EDM.CommonDataSetTableAdapters;
+using NLog;
 
 
 namespace Maxum.EDM
@@ -10,19 +11,34 @@ namespace Maxum.EDM
 
     public class CommonData
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private CommonDataSet.ListSirmDocumentTypeInfoDataTable _documentInfo = null;
         private CommonDataSet.GetLocationCollatorPathsDataTable _collatorInfo = null;
         private CommonDataSet.GetDoclinkPropertysDataTable _docPropertys = null;
+
         public CommonData()
         {
-            _collatorInfo = GetLocationCollatorPaths();
-            _documentInfo = ListSirmDocumentTypeInfo();
-            _docPropertys = GetDocumentPropertys();
+            Logger.Info("Initializing CommonData");
+            try
+            {
+                _collatorInfo = GetLocationCollatorPaths();
+                _documentInfo = ListSirmDocumentTypeInfo();
+                _docPropertys = GetDocumentPropertys();
 
-            DocumentTypePropertyID = GetDocumentPropertyIdByTag("SimonsDocumentName");
-            TripNumberPropertyID = GetDocumentPropertyIdByTag("TRIP_NUMBER");
-            InvoiceNoPropertyID = GetDocumentPropertyIdByTag("InvoiceNo");
-        }
+                DocumentTypePropertyID = GetDocumentPropertyIdByTag("SimonsDocumentName");
+                TripNumberPropertyID = GetDocumentPropertyIdByTag("TRIP_NUMBER");
+                InvoiceNoPropertyID = GetDocumentPropertyIdByTag("InvoiceNo");
+
+                Logger.Info("CommonData initialized successfully");
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex, "Failed to initialize CommonData");
+                throw;
+            }
+
+            }
         internal int TripNumberPropertyID { get; set; }
         internal int DocumentTypePropertyID { get; set; }
         internal int InvoiceNoPropertyID { get; set; }
@@ -49,12 +65,31 @@ namespace Maxum.EDM
         internal int GetDocumentPropertyIdByTag(string tag)
         {
             int ret = 0;
-            System.Data.DataRow[] r = DocumentPropertys.Select("PropertyTag = '" + tag + "'");
-            if (r.Count() > 0)
-                ret = ((CommonDataSet.GetDoclinkPropertysRow)r[0]).PropertyId;
+            Logger.Debug("Fetching PropertyId for tag: {Tag}", tag);
+            if (string.IsNullOrWhiteSpace(tag))
+            {
+                Logger.Warn("Tag is null or empty");
+                return ret;
+            }
+            try
+            {
+                System.Data.DataRow[] r = DocumentPropertys.Select("PropertyTag = '" + tag + "'");
+                if (r.Count() > 0)
+                {
+                    ret = ((CommonDataSet.GetDoclinkPropertysRow)r[0]).PropertyId;
+                    Logger.Debug("Found PropertyId {PropertyId} for tag {Tag}", ret, tag);
+                    return ret;
+                }
+                Logger.Warn("No PropertyId found for tag {Tag}", tag);
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error retrieving PropertyId for tag {Tag}", tag);
+                throw;
+            }
 
-            return ret;
-        }
+            }
 
         protected internal CommonDataSet.GetDoclinkPropertysDataTable GetDocumentPropertys()
         {
@@ -96,11 +131,13 @@ namespace Maxum.EDM
 
         protected internal string GetCollatorPath(string location)
         {
+            Logger.Debug("Fetching CollatorPath for Location: {Location}", location);
             string ret = string.Empty;
             try
             {
                 int iLocation = 0;
                 int.TryParse(location, out iLocation);
+
                 if (iLocation != 0)
                 {
                     CommonDataSet.GetLocationCollatorPathsRow[] collator;
@@ -112,9 +149,9 @@ namespace Maxum.EDM
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Logger.Error(ex, "Error retrieving CollatorPath for Location {Location}", location);
                 throw;
             }
             return ret;
@@ -122,6 +159,7 @@ namespace Maxum.EDM
 
         protected internal CommonDataSet.GetLocationCollatorPathsDataTable GetLocationCollatorPaths()
         {
+            Logger.Debug("Fetching Collator Paths");
             CommonDataSet.GetLocationCollatorPathsDataTable dt = new CommonDataSet.GetLocationCollatorPathsDataTable();
             try
             {
@@ -129,10 +167,11 @@ namespace Maxum.EDM
                 {
                     ta.Fill(dt);
                 }
-
+                Logger.Info("Fetched {Count} collator paths", dt.Rows.Count);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error(ex, "Failed to fetch Collator Paths");
                 throw;
             }
 
@@ -163,18 +202,26 @@ namespace Maxum.EDM
 
         internal static Boolean SetFileDestination(string fileName, string destination)
         {
+            Logger.Debug("Setting file destination. File: {FileName}, Destination: {Destination}",
+                 fileName, destination);
             int ret = 1;
+
             try
             {
                 using (QueriesTableAdapter ta = new QueriesTableAdapter())
                 {
                     ret = ta.InsertImageIoMessageDestination(fileName, destination);
+                    Logger.Info("InsertImageIoMessageDestination returned: {Result}", ret);
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // TODO: Create eventing system.
+                Logger.Error(ex,
+            "Failed to set file destination. File: {FileName}, Destination: {Destination}",
+            fileName, destination);
+
                 throw;
             }
             return (ret == 0);

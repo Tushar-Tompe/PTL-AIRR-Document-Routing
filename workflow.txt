@@ -1,0 +1,102 @@
+Overall Workflow of SirmEdmImageProcessing Solution:
+
+The solution consists of two main components:
+1.  **SirmEdmImageProcessing (Console/Library Application):** Contains the core image processing logic.
+2.  **SirmEdmImageProcessingWS (Windows Service):** Acts as a scheduler/trigger for the core image processing logic.
+
+---
+
+**I. SirmEdmImageProcessingWS (Windows Service) Workflow:**
+
+This component is a Windows Service (`Maxum.EDM.SirmDocumentRoutingService`) that runs in the background and periodically triggers the image processing logic.
+
+1.  **Service Initialization (`SirmDocumentRoutingService` Constructor):**
+    *   Initializes the service components.
+    *   Ensures an Event Log source named "SIRM Document Routing" exists. If not, it creates it.
+    *   Configures its internal `eventLog1` object to use this source for logging service-related events and errors.
+
+2.  **Service Start (`OnStart` method):**
+    *   Logs "Starting Service" to the Windows Event Log.
+    *   Retrieves the `TimerIntervalInMinutes` setting from the service's `App.config` file. (Based on `App.config`, this is set to `0.25` minutes, meaning it triggers every 15 seconds).
+    *   Creates a `System.Timers.Timer` instance, configured to fire at the interval specified by `TimerIntervalInMinutes`.
+    *   Enables the timer.
+    *   Subscribes the `_timer_Elapsed` method to the `Elapsed` event of the timer.
+
+3.  **Timer Elapsed Event (`_timer_Elapsed` method - Scheduled Task Execution):**
+    *   This method executes each time the configured timer interval elapses, acting as the primary trigger for image processing.
+    *   **Temporarily Disables Timer:** Immediately disables the timer (`_timer.Enabled = false`) to prevent re-entrancy. This ensures that the current image processing cycle completes before another can start, avoiding resource contention and unexpected behavior if processing takes longer than the timer interval.
+    *   **Invokes Image Processing Logic:**
+        *   Creates a *new* instance of `Maxum.EDM.ImageProcessing`. This is crucial as it means a fresh instance, including its `CommonData` dependencies, is created for each processing cycle.
+        *   Calls the `StartProcessing()` method on this new `ImageProcessing` instance, initiating the core image processing workflow.
+    *   **Error Handling:** Any exceptions occurring during the `StartProcessing()` execution are caught and logged to the Windows Event Log.
+    *   **Re-enables Timer:** Once the `StartProcessing()` method completes (or an exception is handled), the timer is re-enabled (`_timer.Enabled = true`), allowing it to count down to the next scheduled execution.
+
+4.  **Service Stop (`OnStop` method):**
+    *   Logs "Stopping Service" to the Windows Event Log.
+    *   Disables the timer and detaches the `_timer_Elapsed` event handler to properly release resources and prevent further scheduled calls.
+
+---
+
+**II. SirmEdmImageProcessing (Core Image Processing Logic) Workflow:**
+
+This component contains the primary business logic for handling image files. It is invoked by the `SirmEdmImageProcessingWS` Windows Service.
+
+**Database Connection Details:**
+The application connects to the database specified in the `SirmEdmImageProcessingWS/App.config` file.
+*   **Database Server:** `okc-docld`
+*   **Database Name:** `common`
+*   **Authentication:** `Integrated Security=True` (Windows Authentication). The service account running the Windows Service must have appropriate permissions to the `common` database on `okc-docld`.
+
+1.  **Initialization (`ImageProcessing` Constructor and `StartProcessing` Entry):**
+    *   An `ImageProcessing` object is instantiated for each processing cycle triggered by the Windows Service.
+    *   **`CommonData` Caching:** Inside `StartProcessing()`, an instance of `CommonData` (`_myData`) is created if it's null. The `CommonData` constructor performs crucial database lookups, acting as a client-side cache:
+        *   It calls `GetLocationCollatorPaths()`, which uses `GetLocationCollatorPathsTableAdapter` to execute the stored procedure **`dbo.GetLocationCollatorPaths`**. This procedure queries `dbo.ImageMachines` to retrieve collation paths for unrecognized documents.
+        *   It calls `ListSirmDocumentTypeInfo()`, which uses `ListSirmDocumentTypeInfoTableAdapter` to execute the stored procedure **`dbo.ListSirmDocumentTypeInfo`**. This procedure selects all active document type metadata from `dbo.vw_DocumentTypesWF`. This data is loaded into the `_documentInfo` DataTable.
+        *   It calls `GetDocumentPropertys()`, which uses `GetDoclinkPropertysTableAdapter` to execute the stored procedure **`dbo.GetDoclinkPropertys`**. This procedure retrieves Doclink property metadata (ID, Name, DataType, Tag) from `[doclink2].[dbo].[Propertys]` into the `_docPropertys` DataTable.
+        *   These DataTables (`_documentInfo`, `_collatorInfo`, `_docPropertys`) are populated once per `CommonData` instance from the database and serve as an in-memory cache. This approach significantly reduces the number of direct database calls for subsequent lookups during the processing cycle.
+    *   Other internal components like application settings (`Properties.Settings.Default`) and a `ProcessCache` object are also prepared.
+
+2.  **File Monitoring and Continuous Processing Loop:**
+    *   The `StartProcessing()` method enters a `do...while` loop that continuously monitors a `QueueFolder` (configured in application settings, e.g., `\\mssptcdlink2\SIRM_Queue\Completed\Test`) for new `.tif` image files.
+    *   This loop design is intended to efficiently process files as they arrive, minimizing latency by picking up new files even during an ongoing processing batch.
+
+3.  **Individual File Processing (for each `.tif` file found):**
+    *   For every `.tif` file identified in the `QueueFolder`, the application attempts the following steps within a `try...catch` block to ensure that an error in one file does not halt the entire process:
+        *   **Initialize Process Cache (`InitializeProcessCache`):**
+            *   A `ProcessCache` instance is created and populated with file-specific details: `WorkingFilePath` (the current `.tif` file), `ValidationArchiveDirectory`, `MaxUnknownFiles` limit, and `QueueFolder`.
+        *   **Insert Order Ticket (`InsertOrderTicket` - Core Document Handling Decision Point):**
+            *   This central method orchestrates the document's journey based on its recognition status.
+            *   **Document Recognition (`DocumentIsRecognized`):**
+                *   The application attempts to identify the document type by calling `_myData.GetSirmDocumentTypeInfo(_processCache.DocumentType)`.
+                *   This method performs an *in-memory lookup* on the already cached `_documentInfo` DataTable (populated by `dbo.ListSirmDocumentTypeInfo`). It searches for a row where the `Name` column matches `_processCache.DocumentType`.
+                *   If a match is found, relevant metadata (e.g., `InitialWorkflowActivityID`, `WorkflowID`, `WorkflowQueueID`, `DocumentTypeTag`, `DocumentTypeID`, `HasKeyValue`, `KeyPropertyId`, `DL_TopLevelFolderID`, `SirmProcess`) is retrieved from the cached DataTable row and stored in `_processCache`.
+                *   If `IsSirmProcess` is `false` for a recognized document type, it implies the document does not require further validation within the Sirm process (e.g., certain internally generated invoices).
+            *   **If Document Is Recognized (`DocumentIsRecognized` returns true):**
+                *   **Index Document in Doclink (`IndexDocumentInDoclink2`):** This is where the document is integrated into the Altec Doclink system.
+                    *   **Doclink Login:** The application authenticates with the Doclink system using credentials (`Auth_DL_DB`, `Auth_DL_Server`, `Auth_DL_User`, `Auth_DL_PW`) and endpoint (`DoclinkEndpoint`) from its settings.
+                    *   **Document Object Creation:** A new `Altec.Biz.Document` object is created.
+                    *   **Core Property Assignment:** Essential Doclink properties like `DLFolderID` (the top-level folder for the document), `DocumentTypeId` (the Doclink ID for this document's type), `AutoIndexMode`, and `CleanUpAddedFilesOnSave` are set.
+                    *   **File Attachment:** The `_processCache.WorkingFilePath` (the `.tif` file) is set as the initial document file for the Doclink document.
+                    *   **Adding Dynamic Metadata Properties:** Various custom properties are added to the Doclink document. This is where the `PropertyTag` to `PropertyId` mapping becomes vital:
+                        *   The application uses `_myData.DocumentTypePropertyID` (obtained from `GetDocumentPropertyIdByTag("SimonsDocumentName")` which typically maps to **`PropertyId 35`**) to store the document's output type (`_processCache.DocumentType`).
+                        *   The application uses `_processCache.DocumentKeyID` (obtained from the `KeyPropertyId` from `dbo.ListSirmDocumentTypeInfo` for the specific document type, e.g., **`PropertyId 25` for "Order Number"**) to store the main identifier (`_processCache.DocumentKeyValue`).
+                        *   If an invoice number is present (`!string.IsNullOrEmpty(_processCache.InvoiceNo)`), the application uses `_myData.InvoiceNoPropertyID` (obtained from `GetDocumentPropertyIdByTag("InvoiceNo")` which typically maps to **`PropertyId 4`**) to store `_processCache.InvoiceNo`.
+                        *   *(Note: The code contains commented-out logic for `TripNumber`, which would similarly use `TripNumberPropertyID` from `GetDocumentPropertyIdByTag("TRIP_NUMBER")`, typically **`PropertyId 89`**).*
+                        *   This dynamic mapping allows the application to find the correct numerical `PropertyId` for a given logical property tag (e.g., "InvoiceNo") by performing an in-memory lookup on the `_docPropertys` DataTable (populated by `dbo.GetDoclinkPropertys`).
+                    *   **Apply Edit & Save:** `doc.ApplyEdit()` attempts to save the document and all its assigned properties into the Doclink system.
+                    *   **Validation & Audit:** Upon successful saving, the `ValidationDocumentID` (the Doclink ID of the newly created document) is retrieved. `CommonData.SetFileDestination()` is then called, which uses `QueriesTableAdapter` to execute the stored procedure **`dbo.InsertImageIoMessageDestination`**. This procedure records the `WorkingFilePath` and `ValidationDocumentID` for auditing purposes, tracking where the file was indexed.
+                    *   **Place in Workflow (`PutDocumentInWorkflow`):** If the document is successfully saved to Doclink and has an associated workflow (`_processCache.DL_WorkflowID > 0`), it is placed into that specified Doclink workflow. This involves setting the `WorkflowQueueID`, `WorkflowId`, and `WorkflowActivityID` for the document's `WorkflowQueueDocument` object.
+                    *   **Delete Original File:** If the document is successfully indexed and placed in workflow, the original `.tif` file at `_processCache.WorkingFilePath` is deleted from the `QueueFolder`.
+            *   **If Document Is NOT Recognized (`DocumentIsRecognized` returns false):**
+                *   **Put Document in Indexing Folder (`PutDocumentInIndexingFolder`):** This handles documents that cannot be automatically classified.
+                    *   **Determine Destination:** A `location` for the unrecognised document is derived from `_processCache.DocumentType`. The application then uses `_myData.GetCollatorPath(location)` (which performs an in-memory lookup on the `_collatorInfo` DataTable, populated by `dbo.GetLocationCollatorPaths`) to determine the specific "Unknown Directory" (`_processCache.UnknownDirectory`). If no specific path is found or the directory doesn't exist, a `DefalutUnknownFolder` from settings is used.
+                    *   **Folder Setup:** Ensures that the target indexing directory exists, creating it if necessary.
+                    *   **Copy File:** The original `.tif` file from `_processCache.WorkingFilePath` is copied to this determined `indexingDirectory`.
+                    *   **Audit Trail:** `CommonData.SetFileDestination()` (which calls `dbo.InsertImageIoMessageDestination`) logs the move to the `ImageIoMessages` table for auditing.
+                    *   **Delete Original File:** After successful copying and logging, the original `.tif` file is deleted from the `QueueFolder`.
+
+4.  **Error Handling:**
+    *   Extensive `try...catch` blocks are used throughout the `ImageProcessing` class and its dependencies.
+    *   Any exceptions are caught and logged using `err.LogError(ex)` (which internally uses `ServiceModelEx.ErrorHandlerHelper`), ensuring that transient issues or data anomalies do not crash the entire processing flow.
+
+---

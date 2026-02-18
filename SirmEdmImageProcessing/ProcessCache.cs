@@ -1,16 +1,19 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 
 namespace Maxum.EDM
 {
     /// <summary>
     /// The data collected and passed around for processing.
     /// </summary>
+
     internal class ProcessCache
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         #region Private backing vars
         private string _documentType = string.Empty;
         private string _documentKeyValue = string.Empty;
@@ -32,7 +35,9 @@ namespace Maxum.EDM
             set
             {
                 _workingFilepath = value;
+                Logger.Info($"Setting WorkingFilePath to: '{value}'");
                 _workingFile = Path.GetFileName(_workingFilepath);
+                Logger.Info($"Extracted WorkingFile: '{_workingFile}' from path.");
                 string[] s = _workingFile.Split('-');
                 if (s.Length > 1)
                 {
@@ -45,10 +50,14 @@ namespace Maxum.EDM
                             _documentKeyValue = v[0];
                             //_tripNumber = v[1];
                             _InvoiceNumber = v[1];
+                            Logger.Info($"Parsed KeyValue: '{_documentKeyValue}', InvoiceNo: '{_InvoiceNumber}' from '{s[0]}'.");
                         }
                     }
                     else
-                    { _documentKeyValue = s[0]; }
+                    {
+                        Logger.Warn($"Malformed filename segment in '{s[0]}'. Expected underscore separation for KeyValue and InvoiceNo. Full filename: '{_workingFile}'.Assigning '{s[0]}' to KeyValue.");
+                        _documentKeyValue = s[0]; 
+                    }
 
                     _documentType = s[1];
                 }
