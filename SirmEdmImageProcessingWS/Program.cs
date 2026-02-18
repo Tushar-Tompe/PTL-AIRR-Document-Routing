@@ -16,14 +16,23 @@ namespace Maxum.EDM
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         static void Main()
       {
-            Logger.Info("Entering into main method");
-         ServiceBase[] ServicesToRun;
-         ServicesToRun = new ServiceBase[] 
-			{ 
-				new SirmDocumentRoutingService() 
+            Logger.Info("Application starting...");
+            try
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                   {
+                new SirmDocumentRoutingService()
 
-			};
-         ServiceBase.Run(ServicesToRun);
-      }
+                   };
+                ServiceBase.Run(ServicesToRun);
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex, "Unhandled exception in Main(): " + ex.Message);
+                throw;
+            }
+
+            }
    }
 }

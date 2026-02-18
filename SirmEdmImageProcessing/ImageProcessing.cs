@@ -9,6 +9,7 @@ using System.IO;
 using Altec.Biz;
 using Altec.Framework;
 //using Altec.Framework.ExceptionManagement;
+using NLog;
 using err = ServiceModelEx.ErrorHandlerHelper;
 
 namespace Maxum.EDM
@@ -21,6 +22,8 @@ namespace Maxum.EDM
         private Properties.Settings _mySetings = Properties.Settings.Default;
         private ProcessCache _processCache;
         private CommonData _myData = null;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
 
 
         public ImageProcessing()
@@ -28,6 +31,7 @@ namespace Maxum.EDM
         }
         public void StartProcessing()
         {
+            Logger.Info("ImageProcessing started");
             try
             {
                 List<string> filePaths = new List<string>();
@@ -41,6 +45,7 @@ namespace Maxum.EDM
                         {
                             filePaths.Clear();
                             filePaths = Directory.GetFiles(_mySetings.QueueFolder, "*.tif").ToList();
+                            Logger.Info("Found {FileCount} files in queue.", filePaths.Count);
                         }
                         if (filePaths.Count > 0)
                         {
@@ -53,23 +58,34 @@ namespace Maxum.EDM
                             {
                                 try
                                 { // Keep trying even if one has an error.
+                                    Logger.Info("Processing file: {File}", item);
+
                                     InitializeProcessCache(item);
                                     InsertOrderTicket();
+
+                                    Logger.Info("Finished processing file: {File}", item);
                                 }
                                 catch (Exception ex)
                                 {
+                                    Logger.Error(ex, "Error processing file: {File}", item);
                                     err.LogError(ex);
                                 }
 
                             }
+                        }
+                        else
+                        {
+                            break;
                         }
                     } while (Directory.GetFiles(_mySetings.QueueFolder, "*.tif").Count() > 0);
                 }
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex, "Critical failure in StartProcessing");
                 err.LogError(ex);
             }
+            Logger.Info("ImageProcessing completed");
         }
         private void InitializeProcessCache(string workingPath)
         {
@@ -149,6 +165,7 @@ namespace Maxum.EDM
             catch (Exception ex)
             {
                 err.LogError(ex);
+                Logger.Error("DocumentisRecognized() has Failed: " + ex);
             }
             return ret;
         }
@@ -239,6 +256,7 @@ namespace Maxum.EDM
         {// This version is to deal with the inclusion of a Trip number associated with a Order Number.
             // To add more indexing items use underscore to delimit. [order number]_[trip]_[next]_[next]-[Doc Type].....
             // ProcessCache.WorkingFilePath is where you parse the string.
+            Logger.Info("Indexing file {File} with DocumentType {DocumentType}",_processCache.WorkingFilePath,_processCache.DocumentType);
             bool ret = false;
 
             IPropertyValue ipv;
@@ -251,10 +269,13 @@ namespace Maxum.EDM
                 auth.DatabaseServer = _mySetings.Auth_DL_Server;
                 auth.LoginId = _mySetings.Auth_DL_User;
                 Session.RemotingEndPoint = _mySetings.DoclinkEndpoint;
+                Logger.Debug("Logging into Doclink server: {Server}", _mySetings.Auth_DL_Server);
                 Session.Login(auth, _mySetings.Auth_DL_PW);
+                Logger.Debug("Successfully Logged into Doclink server: {Server}", _mySetings.Auth_DL_Server);
 
                 // Create the document
                 Document doc = new Document();
+                Logger.Info("Document Created successfully. DocumentID: {DocumentId}",doc.DocumentId);
                 doc.BeginEdit();
                 doc.DLFolderID = _processCache.DL_TopLevelFolder; 
                 doc.DocumentTypeId = _processCache.DL_DocumentTypeID;
@@ -335,6 +356,7 @@ namespace Maxum.EDM
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex, "Error Occured: " + ex.Message);
                 err.LogError(ex);
             }
 
@@ -357,8 +379,10 @@ namespace Maxum.EDM
                 }
                 ret = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error(ex,"Failed to put document {DocumentId} into workflow.",_processCache?.ValidationDocumentID);
+                throw;
             }
             return ret;
         }

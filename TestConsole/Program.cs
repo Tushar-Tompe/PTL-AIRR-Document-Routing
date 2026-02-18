@@ -13,6 +13,8 @@ namespace TestConsole
 
         static void Main(string[] args)
       {
+            Logger.Error("TEST EMAIL - Program.cs: This is a direct test email attempt from Program.cs before any other app logic. SQL Error might follow."); // TEST EMAIL ALERT
+            LogManager.Flush(); // Force NLog to process logs immediately
 
             //GetLocationCollatorPathsTest();
             //ListDocumentTypesTest();
@@ -27,6 +29,7 @@ namespace TestConsole
             catch (Exception e)
             {
                 Logger.Error(e, "Received Error: ");
+                LogManager.Flush(); // Flush on error too
             }
 
 
