@@ -54,17 +54,16 @@ packages/
 */obj/Release/
 
 # NLog
-*.nlog
-NLog.config
-NLog.xsd
-*/bin/Debug/NLog.config
-*/bin/Debug/NLog.dll
-*/bin/Debug/NLog.xml
-*/bin/Debug/logs/
+# *.nlog
+# NLog.config
+# NLog.xsd
+# */bin/Debug/NLog.config
+# */bin/Debug/NLog.dll
+# */bin/Debug/NLog.xml
+# */bin/Debug/logs/
 
 # User-generated files (from our session)
 Document Router Tables.csv
 Sttored_Procedures.txt
 detailed_workflow_with_data.txt
 setup_guide.txt
-TestEnv/
