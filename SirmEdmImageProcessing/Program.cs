@@ -8,25 +8,30 @@ namespace Maxum.EDM
    static class Program
    {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        /// <summary>
+        /// Main entry point for the Maxum.EDM Console application.
+        /// This method initializes the image processing logic and orchestrates the overall execution flow.
+        /// It includes NLog logging for tracking progress and error handling for any unhandled exceptions.
+        /// </summary>
         static public void Main()
       {
-            Logger.Info("=== Maxum.EDM Console Processing Started ===");
+            Logger.Info("Step 1: Maxum.EDM Console Processing Started.");
             try
             {
+                Logger.Info("Step 2: Initializing ImageProcessing instance.");
                 ImageProcessing ip = new ImageProcessing();
-                Logger.Info("ImageProcessing initialized.");
+                Logger.Info("Step 3: Invoking ImageProcessing.StartProcessing method.");
                 ip.StartProcessing();
-                Logger.Info("Processing completed successfully.");
+                Logger.Info("Step 4: ImageProcessing completed successfully.");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Error(ex, "Step Error: An unhandled exception occurred in the main application loop.");
             }
             finally
             {
-                Logger.Info("Application shutting down.");
+                Logger.Info("Step 5: Application shutting down.");
             }
-
         }
    }
 }
