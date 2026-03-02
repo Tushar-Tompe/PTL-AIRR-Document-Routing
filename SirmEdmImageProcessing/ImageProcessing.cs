@@ -69,19 +69,22 @@ namespace Maxum.EDM
 
                             foreach (string item in filePaths)
                             {
-                                try
-                                { // Keep trying even if one has an error.
-                                    Logger.Info("Step 3.6: Processing file: {File}", item);
-
-                                    InitializeProcessCache(item); // Step 3.7
-                                    InsertOrderTicket();         // Step 3.8
-
-                                    Logger.Info("Step 3.9: Finished processing file: {File}", item);
-                                }
-                                catch (Exception ex)
+                                using (NLog.ScopeContext.PushProperty("ProcessingFile", item))
                                 {
-                                    Logger.Error(ex, "Step 3.10 Error: Error processing file: {File}", item);
-                                    err.LogError(ex); // Original error logging
+                                    try
+                                    { // Keep trying even if one has an error.
+                                        Logger.Info("Step 3.6: Processing file: {File}", item);
+
+                                        InitializeProcessCache(item); // Step 3.7
+                                        InsertOrderTicket();         // Step 3.8
+
+                                        Logger.Info("Step 3.9: Finished processing file: {File}", item);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex, "Step 3.10 Error: Error processing file: {File}", item);
+                                        err.LogError(ex); // Original error logging
+                                    }
                                 }
 
                             }
