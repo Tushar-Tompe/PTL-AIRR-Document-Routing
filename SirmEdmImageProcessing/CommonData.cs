@@ -27,27 +27,27 @@ namespace Maxum.EDM
         /// </summary>
         public CommonData()
         {
-            Logger.Info("Step 8.0: Initializing CommonData instance.");
+            Logger.Info("Step 3.5.1.1: Initializing CommonData instance.");
             try
             {
-                Logger.Info("Step 8.1: Fetching location collator paths.");
+                Logger.Info("Step 3.5.1.2: Fetching location collator paths.");
                 _collatorInfo = GetLocationCollatorPaths();
-                Logger.Info("Step 8.2: Fetching SIRM document type info.");
+                Logger.Info("Step 3.5.1.3: Fetching SIRM document type info.");
                 _documentInfo = ListSirmDocumentTypeInfo();
-                Logger.Info("Step 8.3: Fetching Doclink properties.");
+                Logger.Info("Step 3.5.1.4: Fetching Doclink properties.");
                 _docPropertys = GetDocumentPropertys();
 
-                Logger.Info("Step 8.4: Mapping specific property IDs by tag.");
+                Logger.Info("Step 3.5.1.5: Mapping specific property IDs by tag.");
                 DocumentTypePropertyID = GetDocumentPropertyIdByTag("SimonsDocumentName");
                 TripNumberPropertyID = GetDocumentPropertyIdByTag("TRIP_NUMBER");
                 InvoiceNoPropertyID = GetDocumentPropertyIdByTag("InvoiceNo");
 
-                Logger.Info("Step 8.5: CommonData initialized successfully.");
+                Logger.Info("Step 3.5.1.6: CommonData initialized successfully.");
 
             }
             catch (Exception ex)
             {
-                Logger.Fatal(ex, "Step Fatal: Failed to initialize CommonData during constructor execution.");
+                Logger.Fatal(ex, "Step 3.5.1.7 Fatal: Failed to initialize CommonData during constructor execution.");
                 throw;
             }
 
@@ -102,10 +102,10 @@ namespace Maxum.EDM
         internal int GetDocumentPropertyIdByTag(string tag)
         {
             int ret = 0;
-            Logger.Debug("Step 9.0: Fetching PropertyId for tag: {Tag}", tag);
+            Logger.Debug("Step 3.5.1.5.1: Fetching PropertyId for tag: {Tag}", tag);
             if (string.IsNullOrWhiteSpace(tag))
             {
-                Logger.Warn("Step 9.1: Tag is null or empty. Cannot fetch PropertyId.");
+                Logger.Warn("Step 3.5.1.5.2 Warning: Tag is null or empty. Cannot fetch PropertyId.");
                 return ret;
             }
             try
@@ -114,15 +114,15 @@ namespace Maxum.EDM
                 if (r.Count() > 0)
                 {
                     ret = ((CommonDataSet.GetDoclinkPropertysRow)r[0]).PropertyId;
-                    Logger.Debug("Step 9.2: Found PropertyId {PropertyId} for tag '{Tag}'", ret, tag);
+                    Logger.Debug("Step 3.5.1.5.3: Found PropertyId {PropertyId} for tag '{Tag}'", ret, tag);
                     return ret;
                 }
-                Logger.Warn("Step 9.3: No PropertyId found in cache for tag '{Tag}'", tag);
+                Logger.Warn("Step 3.5.1.5.4 Warning: No PropertyId found in cache for tag '{Tag}'", tag);
                 return ret;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Step Error: Error retrieving PropertyId for tag '{Tag}'", tag);
+                Logger.Error(ex, "Step 3.5.1.5.5 Error: Error retrieving PropertyId for tag '{Tag}'", tag);
                 throw;
             }
 
@@ -135,19 +135,19 @@ namespace Maxum.EDM
         /// <returns>A DataTable containing all Doclink properties.</returns>
         protected internal CommonDataSet.GetDoclinkPropertysDataTable GetDocumentPropertys()
         {
-            Logger.Info("Step 10.0: Executing GetDocumentPropertys from database.");
+            Logger.Info("Step 3.5.1.4.1: Executing GetDocumentPropertys from database.");
             CommonDataSet.GetDoclinkPropertysDataTable dt = new CommonDataSet.GetDoclinkPropertysDataTable();
             try
             {
                 using (GetDoclinkPropertysTableAdapter ta = new GetDoclinkPropertysTableAdapter())
                 {
                     ta.Fill(dt);
-                    Logger.Info("Step 10.1: Successfully filled Doclink properties table with {Count} rows.", dt.Rows.Count);
+                    Logger.Info("Step 3.5.1.4.2: Successfully filled Doclink properties table with {Count} rows.", dt.Rows.Count);
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Step Error: Failed to retrieve Doclink properties from database.");
+                Logger.Error(ex, "Step 3.5.1.4.3 Error: Failed to retrieve Doclink properties from database.");
                 throw;
             }
             return dt;
@@ -160,7 +160,7 @@ namespace Maxum.EDM
         /// <returns>The DataRow containing the document type info if found; otherwise, null.</returns>
         protected internal CommonDataSet.ListSirmDocumentTypeInfoRow GetSirmDocumentTypeInfo(string documentType)
         {
-            Logger.Info("Step 11.0: Fetching SIRM document type info for: '{DocumentType}'", documentType);
+            Logger.Info("Step 3.8.2.1.1: Fetching SIRM document type info for: '{DocumentType}'", documentType);
             CommonDataSet.ListSirmDocumentTypeInfoRow ret = null;
             try
             {
@@ -172,17 +172,17 @@ namespace Maxum.EDM
                 if (docTypes != null && docTypes.Length > 0)
                 {
                     ret = docTypes[0];
-                    Logger.Info("Step 11.1: Document type '{DocumentType}' found in cache.", documentType);
+                    Logger.Info("Step 3.8.2.1.2: Document type '{DocumentType}' found in cache.", documentType);
                 }
                 else
                 {
-                    Logger.Warn("Step 11.2: Document type '{DocumentType}' NOT found in cache.", documentType);
+                    Logger.Warn("Step 3.8.2.1.3 Warning: Document type '{DocumentType}' NOT found in cache.", documentType);
                 }
 
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Step Error: Error retrieving document type info from cache for: '{DocumentType}'", documentType);
+                Logger.Error(ex, "Step 3.8.2.1.4 Error: Error retrieving document type info from cache for: '{DocumentType}'", documentType);
                 throw;
             }
             return ret;
@@ -196,7 +196,7 @@ namespace Maxum.EDM
         /// <returns>The collator path string if found; otherwise, an empty string.</returns>
         protected internal string GetCollatorPath(string location)
         {
-            Logger.Debug("Step 12.0: Fetching CollatorPath for Location: {Location}", location);
+            Logger.Debug("Step 3.8.12.3.1: Fetching CollatorPath for Location: {Location}", location);
             string ret = string.Empty;
             try
             {
@@ -211,17 +211,17 @@ namespace Maxum.EDM
                     if (collator != null && collator.Length > 0)
                     {
                         ret = collator[0].CollatorPath;
-                        Logger.Info("Step 12.1: Found CollatorPath '{Path}' for location '{Location}'", ret, location);
+                        Logger.Info("Step 3.8.12.3.2: Found CollatorPath '{Path}' for location '{Location}'", ret, location);
                     }
                     else
                     {
-                        Logger.Warn("Step 12.2: No CollatorPath found in cache for location '{Location}'", location);
+                        Logger.Warn("Step 3.8.12.3.3 Warning: No CollatorPath found in cache for location '{Location}'", location);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Step Error: Error retrieving CollatorPath from cache for Location {Location}", location);
+                Logger.Error(ex, "Step 3.8.12.3.4 Error: Error retrieving CollatorPath from cache for Location {Location}", location);
                 throw;
             }
             return ret;
@@ -234,7 +234,7 @@ namespace Maxum.EDM
         /// <returns>A DataTable containing location and collator path information.</returns>
         protected internal CommonDataSet.GetLocationCollatorPathsDataTable GetLocationCollatorPaths()
         {
-            Logger.Info("Step 13.0: Executing GetLocationCollatorPaths from database.");
+            Logger.Info("Step 3.5.1.2.1: Executing GetLocationCollatorPaths from database.");
             CommonDataSet.GetLocationCollatorPathsDataTable dt = new CommonDataSet.GetLocationCollatorPathsDataTable();
             try
             {
@@ -242,11 +242,11 @@ namespace Maxum.EDM
                 {
                     ta.Fill(dt);
                 }
-                Logger.Info("Step 13.1: Successfully fetched {Count} collator paths from database.", dt.Rows.Count);
+                Logger.Info("Step 3.5.1.2.2: Successfully fetched {Count} collator paths from database.", dt.Rows.Count);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Step Error: Failed to fetch Collator Paths from database.");
+                Logger.Error(ex, "Step 3.5.1.2.3 Error: Failed to fetch Collator Paths from database.");
                 throw;
             }
 
@@ -261,20 +261,20 @@ namespace Maxum.EDM
         /// <returns>A DataTable containing SIRM document type metadata and workflow settings.</returns>
         protected internal CommonDataSet.ListSirmDocumentTypeInfoDataTable ListSirmDocumentTypeInfo()
         {
-            Logger.Info("Step 14.0: Executing ListSirmDocumentTypeInfo from database.");
+            Logger.Info("Step 3.5.1.3.1: Executing ListSirmDocumentTypeInfo from database.");
             CommonDataSet.ListSirmDocumentTypeInfoDataTable dt = new CommonDataSet.ListSirmDocumentTypeInfoDataTable();
             try
             {
                 using (ListSirmDocumentTypeInfoTableAdapter ta = new ListSirmDocumentTypeInfoTableAdapter())
                 {
                     ta.Fill(dt);
-                    Logger.Info("Step 14.1: Successfully fetched SIRM document type info table with {Count} rows.", dt.Rows.Count);
+                    Logger.Info("Step 3.5.1.3.2: Successfully fetched SIRM document type info table with {Count} rows.", dt.Rows.Count);
                 }
 
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Step Error: Failed to fetch SIRM document type info from database.");
+                Logger.Error(ex, "Step 3.5.1.3.3 Error: Failed to fetch SIRM document type info from database.");
                 throw;
 
             }
@@ -292,7 +292,7 @@ namespace Maxum.EDM
         /// <returns>True if the destination was successfully logged; otherwise, false.</returns>
         internal static Boolean SetFileDestination(string fileName, string destination)
         {
-            Logger.Info("Step 15.0: Logging file destination. File: {FileName}, Destination: {Destination}", fileName, destination);
+            Logger.Info("Step 3.8.4.11.1: Logging file destination. File: {FileName}, Destination: {Destination}", fileName, destination);
             int ret = 1;
 
             try
@@ -300,13 +300,14 @@ namespace Maxum.EDM
                 using (QueriesTableAdapter ta = new QueriesTableAdapter())
                 {
                     ret = ta.InsertImageIoMessageDestination(fileName, destination);
-                    Logger.Info("Step 15.1: InsertImageIoMessageDestination executed. Result code: {Result}", ret);
+                    Logger.Info("Step 3.8.4.11.2: InsertImageIoMessageDestination executed. Result code: {Result}", ret);
                 }
 
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Step Error: Failed to set file destination in database. File: {FileName}, Destination: {Destination}", fileName, destination);
+                // TODO: Create eventing system.
+                Logger.Error(ex, "Step 3.8.4.11.3 Error: Failed to set file destination in database. File: {FileName}, Destination: {Destination}", fileName, destination);
                 throw;
             }
             return (ret == 0);

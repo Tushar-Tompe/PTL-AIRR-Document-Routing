@@ -54,9 +54,9 @@ namespace Maxum.EDM
             set
             {
                 _workingFilepath = value;
-                Logger.Info("Step 19.0: Setting WorkingFilePath to: '{0}'", value);
+                Logger.Info("Step 3.7.2.1: Setting WorkingFilePath to: '{0}'", value);
                 _workingFile = Path.GetFileName(_workingFilepath);
-                Logger.Info("Step 19.1: Extracted WorkingFile: '{0}' from path.", _workingFile);
+                Logger.Info("Step 3.7.2.2: Extracted WorkingFile: '{0}' from path.", _workingFile);
                 string[] s = _workingFile.Split('-');
                 if (s.Length > 1)
                 {
@@ -69,23 +69,23 @@ namespace Maxum.EDM
                             _documentKeyValue = v[0];
                             //_tripNumber = v[1];
                             _InvoiceNumber = v[1];
-                            Logger.Info("Step 19.2: Parsed KeyValue: '{0}', InvoiceNo: '{1}' from '{2}'.", _documentKeyValue, _InvoiceNumber, s[0]);
+                            Logger.Info("Step 3.7.2.3: Parsed KeyValue: '{0}', InvoiceNo: '{1}' from '{2}'.", _documentKeyValue, _InvoiceNumber, s[0]);
                         }
                     }
                     else
                     {
-                        Logger.Warn("Step 19.3 Warn: Malformed filename segment in '{0}'. Expected underscore separation for KeyValue and InvoiceNo. Full filename: '{1}'. Assigning '{0}' to KeyValue.", s[0], _workingFile);
+                        Logger.Warn("Step 3.7.2.4 Warning: Malformed filename segment in '{0}'. Expected underscore separation for KeyValue and InvoiceNo. Full filename: '{1}'. Assigning '{0}' to KeyValue.", s[0], _workingFile);
                         _documentKeyValue = s[0]; 
                     }
 
                     _documentType = s[1];
-                    Logger.Info("Step 19.4: Parsed DocumentType: '{0}'.", _documentType);
+                    Logger.Info("Step 3.7.2.5: Parsed DocumentType: '{0}'.", _documentType);
                 }
                 else
                 {
-                    Logger.Warn("Step 19.5 Warn: Filename '{0}' does not conform to expected 'KeyValue-DocType-GUID' format.", _workingFile);
+                    Logger.Warn("Step 3.7.2.6 Warning: Filename '{0}' does not conform to expected 'KeyValue-DocType-GUID' format.", _workingFile);
                 }
-                Logger.Info("Step 19.6: WorkingFilePath setter logic completed.");
+                Logger.Info("Step 3.7.2.7: WorkingFilePath setter logic completed.");
             }
         }
         public int DL_WorkFlowQueueID { get; set; }

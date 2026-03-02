@@ -24,7 +24,7 @@ namespace Maxum.EDM
         /// <param name="cache">A reference to the ProcessCache containing relevant directory and file count information.</param>
         internal static void SetupUnknownFolders(ref ProcessCache cache)
       {
-            Logger.Info($"Step 16.0: Starting SetupUnknownFolders for directory: {cache.UnknownDirectory ?? "null"}");
+            Logger.Info($"Step 3.8.12.6.1: Starting SetupUnknownFolders for directory: {cache.UnknownDirectory ?? "null"}");
             string todaysFolder = DateTime.Now.ToString("yyyy-MM-dd");
          DirectoryInfo[] UnknownDirectoryInfo = null;
 
@@ -56,23 +56,23 @@ namespace Maxum.EDM
                   {
                      cache.UnknownWorkingFolder = names[0].Name;
                      cache.UnknownFolderFileCount = names[0].GetFiles().Length;
-                     Logger.Info($"Step 16.1: Found existing unknown working folder: {cache.UnknownWorkingFolder} with {cache.UnknownFolderFileCount} files.");
+                     Logger.Info($"Step 3.8.12.6.2: Found existing unknown working folder: {cache.UnknownWorkingFolder} with {cache.UnknownFolderFileCount} files.");
                   }
                   else
                   {
-                     Logger.Info($"Step 16.2: No suitable existing unknown working folder found for today's date: {todaysFolder}. A new one will be created.");
+                     Logger.Info($"Step 3.8.12.6.3: No suitable existing unknown working folder found for today's date: {todaysFolder}. A new one will be created.");
                   }
                }
             }
             else
             {
-                 Logger.Info($"Step 16.3: UnknownDirectoryInfo is null for: {cache.UnknownDirectory ?? "null"}. A new one will be created.");
+                 Logger.Info($"Step 3.8.12.6.4: UnknownDirectoryInfo is null for: {cache.UnknownDirectory ?? "null"}. A new one will be created.");
             }
-            Logger.Info("Step 16.4: Finished SetupUnknownFolders.");
+            Logger.Info("Step 3.8.12.6.5: Finished SetupUnknownFolders.");
          }
          catch (Exception ex)
          {
-            Logger.Error(ex, "Step 16.5 Error: Failed to set up unknown folders for directory: " + cache.UnknownDirectory);
+            Logger.Error(ex, "Step 3.8.12.6.6 Error: Failed to set up unknown folders for directory: " + cache.UnknownDirectory);
             throw;
          }
       }
@@ -85,43 +85,43 @@ namespace Maxum.EDM
               /// <param name="cache">A reference to the ProcessCache containing document and validation data.</param>
               /// <returns>True if the validation XML and file copy were successful; otherwise, false.</returns>
               internal static bool WriteValidationXML(ref ProcessCache cache)      {
-         Logger.Info($"Step 17.0: Starting WriteValidationXML for file: {cache.WorkingFilePath}");
+         Logger.Info($"Step 3.8.7.1: Starting WriteValidationXML for file: {cache.WorkingFilePath}");
          bool ret = false;
          try
          {
             // Write the file then the xml data
             if (!Directory.Exists(cache.ValidationArchiveDirectory))
             {
-               Logger.Info($"Step 17.1: Validation archive directory does not exist. Attempting to create: {cache.ValidationArchiveDirectory}");
+               Logger.Info($"Step 3.8.7.2: Validation archive directory does not exist. Attempting to create: {cache.ValidationArchiveDirectory}");
                     try
                     {
                         Directory.CreateDirectory(cache.ValidationArchiveDirectory);
-                        Logger.Info($"Step 17.2: Successfully created validation archive directory: {cache.ValidationArchiveDirectory}");
+                        Logger.Info($"Step 3.8.7.3: Successfully created validation archive directory: {cache.ValidationArchiveDirectory}");
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, "Step 17.3 Error: Failed to Create Directory on " + cache.ValidationArchiveDirectory);
+                        Logger.Error(ex, "Step 3.8.7.4 Error: Failed to Create Directory on " + cache.ValidationArchiveDirectory);
                         throw; // Re-throw if directory creation is critical
                     }
             }
             if (File.Exists(cache.WorkingFilePath))
             {
                 string destinationPath = Path.Combine(cache.ValidationArchiveDirectory, cache.WorkingFile);
-                Logger.Info($"Step 17.4: Attempting to copy file from {cache.WorkingFilePath} to {destinationPath}");
+                Logger.Info($"Step 3.8.7.5: Attempting to copy file from {cache.WorkingFilePath} to {destinationPath}");
                     try
                     {
                         File.Copy(cache.WorkingFilePath, destinationPath, true);
-                        Logger.Info($"Step 17.5: Successfully copied file from {cache.WorkingFilePath} to {destinationPath}");
+                        Logger.Info($"Step 3.8.7.6: Successfully copied file from {cache.WorkingFilePath} to {destinationPath}");
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, "Step 17.6 Error: Failed to Copy " + cache.WorkingFile + " From " + cache.WorkingFilePath + " To " +  cache.ValidationArchiveDirectory);
+                        Logger.Error(ex, "Step 3.8.7.7 Error: Failed to Copy " + cache.WorkingFile + " From " + cache.WorkingFilePath + " To " +  cache.ValidationArchiveDirectory);
                         throw; // Re-throw if file copy is critical
                     }
             }
             else
             {
-                Logger.Warn($"Step 17.7 Warning: Working file does not exist, cannot copy: {cache.WorkingFilePath}");
+                Logger.Warn($"Step 3.8.7.8 Warning: Working file does not exist, cannot copy: {cache.WorkingFilePath}");
                 throw new FileNotFoundException($"Working file not found: {cache.WorkingFilePath}");
             }
             
@@ -134,24 +134,24 @@ namespace Maxum.EDM
                   );
 
             string savePath = Path.Combine(cache.ValidationArchiveDirectory, Path.GetFileNameWithoutExtension( cache.WorkingFile) + ".xml");
-            Logger.Info($"Step 17.8: Attempting to save XML validation file to: {savePath}");
+            Logger.Info($"Step 3.8.7.9: Attempting to save XML validation file to: {savePath}");
                 try
                 {
                     validation.Save(savePath);
-                    Logger.Info($"Step 17.9: Successfully saved XML validation file to: {savePath}");
+                    Logger.Info($"Step 3.8.7.10: Successfully saved XML validation file to: {savePath}");
                     ret = true;
 
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex, "Step 17.10 Error: Failed to save XML validation file to: " +  savePath);
+                    Logger.Error(ex, "Step 3.8.7.11 Error: Failed to save XML validation file to: " +  savePath);
                     throw;
                 }
-            Logger.Info($"Step 17.11: Finished WriteValidationXML for file: {cache.WorkingFilePath}. Result: {ret}");
+            Logger.Info($"Step 3.8.7.12: Finished WriteValidationXML for file: {cache.WorkingFilePath}. Result: {ret}");
          }
          catch (Exception ex)
          {
-                Logger.Error(ex, "Step 17.12 Error: Overall failure in WriteValidationXML for: " + cache.WorkingFilePath);
+                Logger.Error(ex, "Step 3.8.7.13 Error: Overall failure in WriteValidationXML for: " + cache.WorkingFilePath);
                 throw;
          }
          finally
@@ -207,7 +207,7 @@ namespace Maxum.EDM
         }
         catch (Exception e)
         {
-                Logger.Error(e, "Step 18.0 Error: cleaning directory name: " + directory);
+                Logger.Error(e, "Step Error: cleaning directory name: " + directory);
                 directory.TrimEnd(Path.DirectorySeparatorChar);
                 //throw new IndexOutOfRangeException("Position: " + pos.ToString() + "   DirName: " + dirName + @"\n" + e.ToString());
         }
