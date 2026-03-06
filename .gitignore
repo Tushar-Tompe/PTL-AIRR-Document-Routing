@@ -69,3 +69,6 @@ detailed_workflow_with_data.txt
 setup_guide.txt
 
 doclink_mapping.md
+
+!okc-docld-doclink33/*.dll
+!okc-docld-doclink33/*.DLL

@@ -330,6 +330,8 @@ namespace Maxum.EDM
             // To add more indexing items use underscore to delimit. [order number]_[trip]_[next]_[next]-[Doc Type].....
             // ProcessCache.WorkingFilePath is where you parse the string.
             Logger.Info("Step 3.8.4.1: Starting IndexDocumentInDoclink2 for file: {File} with DocumentType {DocumentType}", _processCache.WorkingFilePath, _processCache.DocumentType);
+            Logger.Info("Step 3.8.4.1.1: Initialization Info - DocumentType: {0}, DocumentKey: {1}, InvoiceNo: {2}", 
+                _processCache?.DocumentType, _processCache?.DocumentKeyValue, _processCache?.InvoiceNo);
             bool ret = false;
 
             IPropertyValue ipv;

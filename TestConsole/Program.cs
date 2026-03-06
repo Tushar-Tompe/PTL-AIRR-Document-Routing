@@ -21,15 +21,12 @@ namespace TestConsole
         static void Main(string[] args)
       {
             Logger.Info("Step 1: TestConsole application started.");
-            Logger.Error("Step 2: TEST EMAIL - Program.cs: This is a direct test email attempt from Program.cs before any other app logic. SQL Error might follow."); // TEST EMAIL ALERT
-            LogManager.Flush(); // Step 3: Force NLog to process logs immediately
 
-            //GetLocationCollatorPathsTest();
-            //ListDocumentTypesTest();
+
             try
             {
-                Logger.Info("Step 4: Entering into main processing block.");
-                Logger.Info("Step 5: Initializing ImageProcessing instance.");
+                Logger.Info("Step 2: Entering into main processing block.");
+                Logger.Info("Step 3: Initializing ImageProcessing instance.");
                 ImageProcessing ip = new ImageProcessing();
                 Logger.Info("Step 6: Invoking ImageProcessing.StartProcessing.");
                 ip.StartProcessing();

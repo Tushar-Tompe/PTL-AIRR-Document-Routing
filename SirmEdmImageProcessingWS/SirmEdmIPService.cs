@@ -30,13 +30,26 @@ namespace Maxum.EDM
       {
          InitializeComponent();
          Logger.Info("Step 20.0: Initializing SirmDocumentRoutingService.");
-         if (!System.Diagnostics.EventLog.SourceExists("SIRM Document Routing"))
+         
+         try
          {
-            System.Diagnostics.EventLog.CreateEventSource("SirmDocRouter", "SIRM Document Routing", ".");
-         }
+            if (!System.Diagnostics.EventLog.SourceExists("SirmDocRouter"))
+            {
+               EventSourceCreationData sourceData = new EventSourceCreationData("SirmDocRouter", "SIRM Document Routing");
+               System.Diagnostics.EventLog.CreateEventSource(sourceData);
+            }
 
-         eventLog1.Source = "SirmDocRouter";
-         eventLog1.Log = "SIRM Document Routing";
+            eventLog1.Source = "SirmDocRouter";
+            eventLog1.Log = "SIRM Document Routing";
+         }
+         catch (System.Security.SecurityException secEx)
+         {
+            Logger.Warn(secEx, "Step 20.1 Warning: Lack of permissions to initialize Windows EventLog. Continuing with NLog only.");
+         }
+         catch (Exception ex)
+         {
+            Logger.Error(ex, "Step 20.1 Error: General failure during EventLog initialization.");
+         }
       }
 
         /// <summary>
