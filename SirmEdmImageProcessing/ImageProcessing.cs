@@ -169,7 +169,7 @@ namespace Maxum.EDM
                 }
                 else
                 {
-                    Logger.Error("Step 3.8.11 Error: Document indexing in Doclink failed for {WorkingFilePath}. Moving to unknown folder.", _processCache.WorkingFilePath);
+                    Logger.Warn("Step 3.8.11 Warn: Document indexing in Doclink failed for {WorkingFilePath}. Moving to unknown folder.", _processCache.WorkingFilePath);
                     PutDocumentInIndexingFolder(); // Step 3.8.12
                 }
             }
@@ -469,7 +469,7 @@ namespace Maxum.EDM
             }
             catch (Altec.Framework.BizObjectValidationException vex)
             {
-                Logger.Error(vex, "Step 3.8.4.14.6 Error: Workflow validation failed for DocumentID {DocumentId}. Inspecting broken rules...", doc.DocumentId);
+                Logger.Warn(vex, "Step 3.8.4.14.6 Warn: Workflow validation failed for DocumentID {DocumentId}. Inspecting broken rules...", doc.DocumentId);
                 if (wqd != null && wqd.BrokenRules != null && wqd.BrokenRules.Count > 0)
                 {
                     foreach (object rule in wqd.BrokenRules)
@@ -481,14 +481,14 @@ namespace Maxum.EDM
                         {
                             ruleDetails = prop.GetValue(rule, null)?.ToString() ?? ruleDetails;
                         }
-                        Logger.Error("Step 3.8.4.14.7 Error: Broken Rule Details: {Rule}", ruleDetails);
+                        Logger.Warn("Step 3.8.4.14.7 Warn: Broken Rule Details: {Rule}", ruleDetails);
                     }
                 }
                 throw;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex,"Step 3.8.4.14.8 Error: Failed to put document {DocumentId} into workflow.",_processCache?.ValidationDocumentID);
+                Logger.Warn(ex,"Step 3.8.4.14.8 Warn: Failed to put document {DocumentId} into workflow.",_processCache?.ValidationDocumentID);
                 throw;
             }
             Logger.Info("Step 3.8.4.14.9: PutDocumentInWorkflow returning: {Result}", ret);
