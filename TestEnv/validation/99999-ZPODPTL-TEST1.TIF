@@ -1,0 +1,2 @@
+This is a dummy test TIFF file.
+The application expects TIFF files, but for basic routing tests, the content type often doesn't matter as much as the filename.

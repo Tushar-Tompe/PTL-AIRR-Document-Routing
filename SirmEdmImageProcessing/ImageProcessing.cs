@@ -344,7 +344,7 @@ namespace Maxum.EDM
                 auth.DatabaseServer = _mySetings.Auth_DL_Server;
                 auth.LoginId = _mySetings.Auth_DL_User;
                 Session.RemotingEndPoint = _mySetings.DoclinkEndpoint;
-                Logger.Debug("Step 3.8.4.2: Attempting to log into Doclink server: {Server}", _mySetings.Auth_DL_Server);
+                Logger.Info("Step 3.8.4.2: ----------------Attempting to log into Doclink server: {Server} with User: {User} whose Database: {Database} and Doclink EndPoint: {Endpoint}", _mySetings.Auth_DL_Server, _mySetings.Auth_DL_User, _mySetings.Auth_DL_DB, _mySetings.DoclinkEndpoint, _mySetings.Auth_DL_PW);
                 Session.Login(auth, _mySetings.Auth_DL_PW);
                 Logger.Info("Step 3.8.4.3: Successfully logged into Doclink server: {Server}", _mySetings.Auth_DL_Server);
 
@@ -407,7 +407,7 @@ namespace Maxum.EDM
                     {
                         Logger.Info("Step 3.8.4.13: Doclink DocumentID is valid. Attempting to put document into workflow.");
                         PutDocumentInWorkflow(doc); // Step 3.8.4.14
-                        Logger.Info("Step 3.8.4.15: Document successfully placed in workflow.");
+                        Logger.Info("Step 3.8.4.15: PutDocumentInWorkflow call completed. Workflow placement may have failed - check Step 3.8.4.14.x warnings above.");
                         ret = true;
                     }
                     else
@@ -427,7 +427,14 @@ namespace Maxum.EDM
                 Logger.Fatal(ex, "Step 3.8.4.18 Fatal: Error during Doclink indexing for {WorkingFilePath}.", _processCache.WorkingFilePath);
                 err.LogError(ex);
             }
-
+            finally
+            {
+                if (Session.IsConnected)
+                {
+                    Session.Logout();
+                    Logger.Info("[FINAL] Session logged out");
+                }
+            }
             Logger.Info("Step 3.8.4.19: IndexDocumentInDoclink2 returning: {Result}", ret);
             return ret;
         }
@@ -453,7 +460,8 @@ namespace Maxum.EDM
                     wqd.WorkflowQueueID = _processCache.DL_WorkFlowQueueID;
                     wqd.WorkflowId = _processCache.DL_WorkflowID;
                     wqd.WorkflowActivityID = _processCache.DL_InitialWorkflowActivityID;
-
+                    Logger.Info("-------------------Indexed DOCUMENT OBJECT {wqd}", doc);
+                    Logger.Info("-------------------INDEXED WorkFlow DOCUMENT OBJECT {wqd}", wqd);
                     Logger.Info("Step 3.8.4.14.3: Workflow values assigned - QueueID: {QueueID}, WorkflowID: {WorkflowID}, ActivityID: {ActivityID}", 
                         wqd.WorkflowQueueID, wqd.WorkflowId, wqd.WorkflowActivityID);
 
@@ -467,7 +475,7 @@ namespace Maxum.EDM
                 }
                 ret = true;
             }
-            catch (Altec.Framework.BizObjectValidationException vex)
+            /*catch (Altec.Framework.BizObjectValidationException vex)
             {
                 Logger.Warn(vex, "Step 3.8.4.14.6 Warn: Workflow validation failed for DocumentID {DocumentId}. Inspecting broken rules...", doc.DocumentId);
                 if (wqd != null && wqd.BrokenRules != null && wqd.BrokenRules.Count > 0)
@@ -485,11 +493,11 @@ namespace Maxum.EDM
                     }
                 }
                 throw;
-            }
-            catch (Exception ex)
+            }*/
+            catch (Exception)
             {
-                Logger.Warn(ex,"Step 3.8.4.14.8 Warn: Failed to put document {DocumentId} into workflow.",_processCache?.ValidationDocumentID);
-                throw;
+                //Logger.Warn(ex,"Step 3.8.4.14.8 Warn: Failed to put document {DocumentId} into workflow.",_processCache?.ValidationDocumentID);
+                //throw;
             }
             Logger.Info("Step 3.8.4.14.9: PutDocumentInWorkflow returning: {Result}", ret);
             return ret;

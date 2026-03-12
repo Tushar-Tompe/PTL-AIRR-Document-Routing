@@ -33,13 +33,13 @@ namespace Maxum.EDM
          
          try
          {
-            if (!System.Diagnostics.EventLog.SourceExists("SirmDocRouter"))
+            if (!System.Diagnostics.EventLog.SourceExists("TestSirmDocRouter"))
             {
-               EventSourceCreationData sourceData = new EventSourceCreationData("SirmDocRouter", "SIRM Document Routing");
+               EventSourceCreationData sourceData = new EventSourceCreationData("TestSirmDocRouter", "SIRM Document Routing");
                System.Diagnostics.EventLog.CreateEventSource(sourceData);
             }
 
-            eventLog1.Source = "SirmDocRouter";
+            eventLog1.Source = "TestSirmDocRouter";
             eventLog1.Log = "SIRM Document Routing";
          }
          catch (System.Security.SecurityException secEx)
@@ -121,5 +121,10 @@ namespace Maxum.EDM
          _timer.Elapsed -= new ElapsedEventHandler(_timer_Elapsed);
          Logger.Info("Step 23.1: Timer disabled and service stopped successfully.");
       }
-   }
+
+        private void eventLog1_EntryWritten(object sender, EntryWrittenEventArgs e)
+        {
+
+        }
+    }
 }

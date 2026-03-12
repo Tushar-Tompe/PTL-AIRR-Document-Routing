@@ -40,8 +40,8 @@
             // 
             this.serviceInstaller1.DelayedAutoStart = true;
             this.serviceInstaller1.Description = "Routs processed documents to the EDM system or Indexing file locations.";
-            this.serviceInstaller1.DisplayName = "PTL AIRR Document Routing";
-            this.serviceInstaller1.ServiceName = "SirmDocRout";
+            this.serviceInstaller1.DisplayName = "Test PTL AIRR Document Routing";
+            this.serviceInstaller1.ServiceName = "TestSirmDocRout";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
