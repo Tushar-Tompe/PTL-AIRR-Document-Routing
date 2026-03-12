@@ -72,7 +72,7 @@ namespace Maxum.EDM
          }
          catch (Exception ex)
          {
-            Logger.Error(ex, "Step 3.8.12.6.6 Error: Failed to set up unknown folders for directory: " + cache.UnknownDirectory);
+            Logger.Warn(ex, "Step 3.8.12.6.6 Error: Failed to set up unknown folders for directory: " + cache.UnknownDirectory);
             throw;
          }
       }
@@ -100,7 +100,7 @@ namespace Maxum.EDM
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, "Step 3.8.7.4 Error: Failed to Create Directory on " + cache.ValidationArchiveDirectory);
+                        Logger.Warn(ex, "Step 3.8.7.4 Error: Failed to Create Directory on " + cache.ValidationArchiveDirectory);
                         throw; // Re-throw if directory creation is critical
                     }
             }
@@ -115,7 +115,7 @@ namespace Maxum.EDM
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, "Step 3.8.7.7 Error: Failed to Copy " + cache.WorkingFile + " From " + cache.WorkingFilePath + " To " +  cache.ValidationArchiveDirectory);
+                        Logger.Warn(ex, "Step 3.8.7.7 Error: Failed to Copy " + cache.WorkingFile + " From " + cache.WorkingFilePath + " To " +  cache.ValidationArchiveDirectory);
                         throw; // Re-throw if file copy is critical
                     }
             }
@@ -144,14 +144,14 @@ namespace Maxum.EDM
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex, "Step 3.8.7.11 Error: Failed to save XML validation file to: " +  savePath);
+                    Logger.Warn(ex, "Step 3.8.7.11 Error: Failed to save XML validation file to: " +  savePath);
                     throw;
                 }
             Logger.Info($"Step 3.8.7.12: Finished WriteValidationXML for file: {cache.WorkingFilePath}. Result: {ret}");
          }
          catch (Exception ex)
          {
-                Logger.Error(ex, "Step 3.8.7.13 Error: Overall failure in WriteValidationXML for: " + cache.WorkingFilePath);
+                Logger.Warn(ex, "Step 3.8.7.13 Error: Overall failure in WriteValidationXML for: " + cache.WorkingFilePath);
                 throw;
          }
          finally
@@ -207,9 +207,9 @@ namespace Maxum.EDM
         }
         catch (Exception e)
         {
-                Logger.Error(e, "Step Error: cleaning directory name: " + directory);
-                directory.TrimEnd(Path.DirectorySeparatorChar);
-                //throw new IndexOutOfRangeException("Position: " + pos.ToString() + "   DirName: " + dirName + @"\n" + e.ToString());
+                Logger.Warn(e, "Step Error: cleaning directory name: " + directory);
+                //directory.TrimEnd(Path.DirectorySeparatorChar);
+                throw new IndexOutOfRangeException("Position: " + pos.ToString() + "   DirName: " + dirName + @"\n" + e.ToString());
         }
         return dirName;
      }
