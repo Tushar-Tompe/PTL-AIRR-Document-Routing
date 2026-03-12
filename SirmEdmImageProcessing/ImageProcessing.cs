@@ -345,6 +345,7 @@ namespace Maxum.EDM
                 auth.LoginId = _mySetings.Auth_DL_User;
                 Session.RemotingEndPoint = _mySetings.DoclinkEndpoint;
                 Logger.Info("Step 3.8.4.2: ----------------Attempting to log into Doclink server: {Server} with User: {User} whose Database: {Database} and Doclink EndPoint: {Endpoint}", _mySetings.Auth_DL_Server, _mySetings.Auth_DL_User, _mySetings.Auth_DL_DB, _mySetings.DoclinkEndpoint, _mySetings.Auth_DL_PW);
+
                 Session.Login(auth, _mySetings.Auth_DL_PW);
                 Logger.Info("Step 3.8.4.3: Successfully logged into Doclink server: {Server}", _mySetings.Auth_DL_Server);
 
