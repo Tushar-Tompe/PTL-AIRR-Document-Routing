@@ -167,11 +167,6 @@ namespace Maxum.EDM
                         Logger.Warn("Step 3.8.9 Warning: Original working file {WorkingFilePath} not found for deletion.", _processCache.WorkingFilePath);
                     }
                 }
-                else
-                {
-                    Logger.Warn("Step 3.8.11 Warn: Document indexing in Doclink failed for {WorkingFilePath}. Moving to unknown folder.", _processCache.WorkingFilePath);
-                    PutDocumentInIndexingFolder(); // Step 3.8.12
-                }
             }
             else
             {
@@ -388,11 +383,22 @@ namespace Maxum.EDM
                     pv = new PropertyValue();
                     pv.PropertyID = _myData.InvoiceNoPropertyID;
                     dtp = doc.DocumentType.DocumentTypeProperties.FindByPropertyId(pv.PropertyID);
-                    pv.DocumentTypePropertyId = dtp.DocumentTypePropertyId;
-                    pv.Value = _processCache.InvoiceNo;
-                    ipv = pv;
-                    doc.PropertyValues.Add(ref ipv);
-                    Logger.Info("Step 3.8.4.8: Added InvoiceNo property (ID: {PropID}) with value: {Value}", pv.PropertyID, _processCache.InvoiceNo);
+                    if (dtp != null)
+                    {
+                        pv.DocumentTypePropertyId = dtp.DocumentTypePropertyId;
+                        pv.Value = _processCache.InvoiceNo;
+                        ipv = pv;
+                        doc.PropertyValues.Add(ref ipv);
+                        Logger.Info("Step 3.8.4.8: Added InvoiceNo property (ID: {PropID}) with value: {Value}", pv.PropertyID, _processCache.InvoiceNo);
+                    }
+                    else
+                    {
+                        Logger.Warn("Step 3.8.4.8a: documentTypeProperty is NULL for InvoiceNoPropertyID={PropID} in DocumentTypeId={TypeID}",_myData.InvoiceNoPropertyID, _processCache.DL_DocumentTypeID);
+                        foreach (DocumentTypeProperty availDtp in doc.DocumentType.DocumentTypeProperties)
+                        {
+                            Logger.Warn("Step 3.8.4.8b: Available Property -> ID={PropID}, DocTypePropId={DocTypePropId}",availDtp.PropertyId, availDtp.DocumentTypePropertyId);
+                        }
+                    }
                 }
 
                 if (doc.IsValid)
