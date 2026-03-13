@@ -21,6 +21,7 @@ namespace Maxum.EDM
         /// </summary>
         static void Main()
         {
+            Logger.Info("================================================================================================================");
             Logger.Info("Step 1: SirmDocumentRoutingService application main entry point started.");
             try
             {
