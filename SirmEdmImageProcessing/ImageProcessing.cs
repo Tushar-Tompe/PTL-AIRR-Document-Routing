@@ -449,7 +449,7 @@ namespace Maxum.EDM
             }
             catch (Exception ex)
             {
-                Logger.Fatal(ex, "Step 3.8.4.18 Fatal: Error during Doclink indexing for {WorkingFilePath}.", _processCache.WorkingFilePath);
+                Logger.Fatal(ex, "Step 3.8.4.18 Fatal: Error during Doclink indexing for {WorkingFilePath}.", _processCache?.WorkingFilePath ?? "unknown");
                 err.LogError(ex);
             }
             finally
