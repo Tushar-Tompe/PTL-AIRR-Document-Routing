@@ -73,6 +73,7 @@ namespace Maxum.EDM
                                 {
                                     try
                                     { // Keep trying even if one has an error.
+                                        Logger.Info("----------------------------------------------------- Processing file: {File} ------------------------------------------------", item);
                                         Logger.Info("Step 3.6: Processing file: {File}", item);
 
                                         InitializeProcessCache(item); // Step 3.7
@@ -82,7 +83,7 @@ namespace Maxum.EDM
                                     }
                                     catch (Exception ex)
                                     {
-                                        Logger.Error(ex, "Step 3.10 Error: Error processing file: {File}", item);
+                                        Logger.Warn(ex, "Step 3.10 Error: Error processing file: {File}", item);
                                         err.LogError(ex); // Original error logging
                                     }
                                 }
