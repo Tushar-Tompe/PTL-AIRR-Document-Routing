@@ -359,11 +359,19 @@ namespace Maxum.EDM
                 pv = new PropertyValue();
                 pv.PropertyID = _myData.DocumentTypePropertyID; //35; // Maxum doc type identifier - [output Type][sales org]
                 dtp = doc.DocumentType.DocumentTypeProperties.FindByPropertyId(pv.PropertyID);
-                pv.DocumentTypePropertyId = dtp.DocumentTypePropertyId;
-                pv.Value = _processCache.DocumentType;
-                ipv = pv;
-                doc.PropertyValues.Add(ref ipv);
-                Logger.Info("Step 3.8.4.6: Added Output Type property (ID: {PropID}) with value: {Value}", pv.PropertyID, _processCache.DocumentType);
+                if (dtp != null)
+                {
+                    pv.DocumentTypePropertyId = dtp.DocumentTypePropertyId;
+                    pv.Value = _processCache.DocumentType;
+                    ipv = pv;
+                    doc.PropertyValues.Add(ref ipv);
+                    Logger.Info("Step 3.8.4.6: Added Output Type property (ID: {PropID}) with value: {Value}", pv.PropertyID, _processCache.DocumentType);
+
+                }
+                else
+                {
+                    Logger.Warn("Step 3.8.4.6a: documentTypeProperty is NULL for DocumentTypePropertyID={PropID} (Output Type) in DocumentTypeId={TypeID}. Skipping property.", _myData.DocumentTypePropertyID, _processCache.DL_DocumentTypeID);
+                }
 
                 // Add Key property
                 pv = new PropertyValue();
@@ -371,12 +379,21 @@ namespace Maxum.EDM
                 pv.PropertyID = _processCache.DocumentKeyID; //25 Order number or Invoice etc..
                 dtp = doc.DocumentType.DocumentTypeProperties.FindByPropertyId(pv.PropertyID);
                 // If the code fails here you forgot to add 'Document No.' as one of the properties of the document type.
-                pv.DocumentTypePropertyId = dtp.DocumentTypePropertyId; //387 
-                pv.DataType = new Altec.Biz.Property(_processCache.DocumentKeyID).DataType;
-                pv.Value = _processCache.DocumentKeyValue;
-                ipv = pv;
-                doc.PropertyValues.Add(ref ipv);
-                Logger.Info("Step 3.8.4.7: Added Key property (ID: {PropID}) with value: {Value}", pv.PropertyID, _processCache.DocumentKeyValue);
+                if(dtp != null)
+                {
+                    pv.DocumentTypePropertyId = dtp.DocumentTypePropertyId; //387 
+                    pv.DataType = new Altec.Biz.Property(_processCache.DocumentKeyID).DataType;
+                    pv.Value = _processCache.DocumentKeyValue;
+                    ipv = pv;
+                    doc.PropertyValues.Add(ref ipv);
+                    Logger.Info("Step 3.8.4.7: Added Key property (ID: {PropID}) with value: {Value}", pv.PropertyID, _processCache.DocumentKeyValue);
+
+                }
+                else
+                {
+                    Logger.Warn("Step 3.8.4.7a: documentTypeProperty is NULL for DocumentKeyID={PropID} in DocumentTypeId={TypeID}. Document type may be missing 'Document No.' property. Skipping.", _processCache.DocumentKeyID, _processCache.DL_DocumentTypeID);
+
+                }
 
                 if (!string.IsNullOrEmpty(_processCache.InvoiceNo))
                 {

@@ -110,7 +110,7 @@ namespace Maxum.EDM.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("tcp://okc-docld:5555/doclinkServer.soap")]
+        [global::System.Configuration.DefaultSettingValueAttribute("tcp://okc-doclp1:5555/doclinkServer.soap")]
         public string DoclinkEndpoint {
             get {
                 return ((string)(this["DoclinkEndpoint"]));
