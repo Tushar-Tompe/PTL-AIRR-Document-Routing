@@ -61,65 +61,134 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Altec.Biz.App">
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Biz.App.dll</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Biz.App.dll</HintPath>
     </Reference>
-    <Reference Include="Altec.Biz.Document">
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Biz.Document.DLL</HintPath>
+    <Reference Include="Altec.Biz.Document, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\okc-docld-doclink33\Altec.Biz.Document.dll</HintPath>
     </Reference>
     <Reference Include="Altec.Biz.DynamicUI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Biz.DynamicUI.DLL</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Biz.DynamicUI.DLL</HintPath>
     </Reference>
     <Reference Include="Altec.Biz.Security, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Biz.Security.dll</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Biz.Security.dll</HintPath>
     </Reference>
     <Reference Include="Altec.Biz.System, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Biz.System.DLL</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Biz.System.DLL</HintPath>
     </Reference>
-    <Reference Include="Altec.Biz.Workflow">
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Biz.Workflow.dll</HintPath>
+    <Reference Include="Altec.Biz.Workflow, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\okc-docld-doclink33\Altec.Biz.Workflow.dll</HintPath>
     </Reference>
-    <Reference Include="Altec.Framework.Biz">
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Framework.Biz.DLL</HintPath>
+    <Reference Include="Altec.Framework.Biz, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\okc-docld-doclink33\Altec.Framework.Biz.dll</HintPath>
     </Reference>
     <Reference Include="Altec.Framework.BizSupport, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Framework.BizSupport.DLL</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Framework.BizSupport.dll</HintPath>
     </Reference>
-    <Reference Include="Altec.Framework.Core">
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Framework.Core.DLL</HintPath>
+    <Reference Include="Altec.Framework.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\okc-docld-doclink33\Altec.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Altec.Framework.RDC">
+      <HintPath>..\okc-docld-doclink33\Altec.Framework.RDC.dll</HintPath>
+    </Reference>
+    <Reference Include="Altec.Framework.RDCGateway">
+      <HintPath>..\okc-docld-doclink33\Altec.Framework.RDCGateway.dll</HintPath>
+    </Reference>
+    <Reference Include="Altec.Framework.RDCSupport">
+      <HintPath>..\okc-docld-doclink33\Altec.Framework.RDCSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Altec.Framework.Schema">
+      <HintPath>..\okc-docld-doclink33\Altec.Framework.Schema.dll</HintPath>
+    </Reference>
+    <Reference Include="Altec.Framework.ServiceProcess">
+      <HintPath>..\okc-docld-doclink33\Altec.Framework.ServiceProcess.dll</HintPath>
     </Reference>
     <Reference Include="Altec.Integration">
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Integration.dll</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Integration.dll</HintPath>
+    </Reference>
+    <Reference Include="Altec.RDC.Document">
+      <HintPath>..\okc-docld-doclink33\Altec.RDC.Document.dll</HintPath>
     </Reference>
     <Reference Include="Altec.Rel.Document, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Rel.Document.DLL</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Rel.Document.dll</HintPath>
+    </Reference>
+    <Reference Include="Altec.Rel.Security">
+      <HintPath>..\okc-docld-doclink33\Altec.Rel.Security.dll</HintPath>
     </Reference>
     <Reference Include="Altec.Rel.System, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Rel.System.DLL</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Rel.System.DLL</HintPath>
     </Reference>
     <Reference Include="Altec.Rel.Workflow, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.Rel.Workflow.DLL</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.Rel.Workflow.dll</HintPath>
     </Reference>
     <Reference Include="Altec.UI.IntegrationTypes">
-      <HintPath>..\..\..\..\Program Files\Altec\Altec.UI.IntegrationTypes.dll</HintPath>
+      <HintPath>..\okc-docld-doclink33\Altec.UI.IntegrationTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="Altec.Utilities.TiffHelper">
+      <HintPath>..\okc-docld-doclink33\Altec.Utilities.TiffHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=4.7.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.4.7.1.1\lib\net48\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit, Version=4.7.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.4.7.1\lib\net48\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.6.0.5\lib\net46\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.MailKit, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.MailKit.6.0.5\lib\net462\NLog.MailKit.dll</HintPath>
     </Reference>
     <Reference Include="ServiceModelEx">
       <HintPath>..\ServiceModelEx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Formats.Asn1, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Formats.Asn1.8.0.1\lib\net462\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -167,6 +236,13 @@
     <None Include="CommonDataSet.xss">
       <DependentUpon>CommonDataSet.xsd</DependentUpon>
     </None>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

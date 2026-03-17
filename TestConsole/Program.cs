@@ -3,57 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Maxum.EDM;
+using NLog;
 
 namespace TestConsole
 {
    static class Program
    {
-      
-      static void Main(string[] args)
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// Main entry point for the TestConsole application.
+        /// This method is primarily used for developer testing and debugging of the core image processing logic.
+        /// It includes a test email trigger, initializes ImageProcessing, and invokes its main execution method.
+        /// All operations are wrapped in NLog for detailed tracing and error reporting.
+        /// </summary>
+        /// <param name="args">Command-line arguments (not used).</param>
+        static void Main(string[] args)
       {
+            Logger.Info("Step 1: TestConsole application started.");
 
-            //GetLocationCollatorPathsTest();
-            //ListDocumentTypesTest();
 
-            ImageProcessing ip = new ImageProcessing();
-            ip.StartProcessing();
-            
+            try
+            {
+                Logger.Info("Step 2: Entering into main processing block.");
+                Logger.Info("Step 3: Initializing ImageProcessing instance.");
+                ImageProcessing ip = new ImageProcessing();
+                Logger.Info("Step 6: Invoking ImageProcessing.StartProcessing.");
+                ip.StartProcessing();
+                Logger.Info("Step 7: ImageProcessing completed successfully.");
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Step Error: An unhandled exception occurred during main processing.");
+                LogManager.Flush(); // Flush on error too
+            }
 
-            InsertImageIodestinationTest();
+
+            //InsertImageIodestinationTest();
             //SetupUnknownFoldersTest();
 
 
         }
 
-        //static void GetLocationCollatorPathsTest()
-        //{
-        //    CommonData cdata = new CommonData();
+        // ... existing commented out methods ...
 
-        //    Maxum.EDM.CommonDataSet.GetLocationCollatorPathsDataTable dt = cdata.GetLocationCollatorPaths();
-        //    foreach (CommonDataSet.GetLocationCollatorPathsRow r in dt)
-        //    {
-        //        Console.WriteLine(r.Location + " - " + r.CollatorPath);
-
-        //    }
-        //    Console.ReadLine();
-        //    dt.Dispose();
-        //}
-
-        //static void ListDocumentTypesTest()
-        //{
-        //    CommonData cdata = new CommonData();
-        //    Maxum.EDM.CommonDataSet.ListDocumentTypesDataTable dt = cdata.ListDocumentTypes();
-        //    foreach (CommonDataSet.ListDocumentTypesRow r in dt)
-        //    {
-        //        Console.WriteLine(r.DocumentTypeTag + " - " + r.KeyPropertyName);
-
-        //    }
-        //    Console.ReadLine();
-        //    dt.Dispose();
-        //}
-
+        /// <summary>
+        /// Test method for inserting image destination audit records into the database.
+        /// This is used to verify the audit logging stored procedure and TableAdapter functionality.
+        /// </summary>
         static void InsertImageIodestinationTest()
         {
+
             CommonData cdata = new CommonData();
             Maxum.EDM.CommonDataSetTableAdapters.QueriesTableAdapter ta = new Maxum.EDM.CommonDataSetTableAdapters.QueriesTableAdapter();
             ta.InsertImageIoMessageDestination(@"\\Test\Test.tif", "billsTest");

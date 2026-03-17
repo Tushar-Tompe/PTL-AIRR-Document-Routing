@@ -28,13 +28,17 @@
       /// </summary>
       private void InitializeComponent()
       {
-         this.eventLog1 = new System.Diagnostics.EventLog();
-         ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
-         // 
-         // SirmDocumentRoutingService
-         // 
-         this.ServiceName = "SirmDocRout";
-         ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).EndInit();
+            this.eventLog1 = new System.Diagnostics.EventLog();
+            ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
+            // 
+            // eventLog1
+            // 
+            this.eventLog1.EntryWritten += new System.Diagnostics.EntryWrittenEventHandler(this.eventLog1_EntryWritten);
+            // 
+            // SirmDocumentRoutingService
+            // 
+            this.ServiceName = "TestSirmDocRoute";
+            ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).EndInit();
 
       }
 
