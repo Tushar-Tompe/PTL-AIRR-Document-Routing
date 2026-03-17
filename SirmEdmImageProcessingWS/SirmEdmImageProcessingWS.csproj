@@ -122,6 +122,10 @@
     <Reference Include="Altec.UI.IntegrationTypes">
       <HintPath>..\okc-docld-doclink33\Altec.UI.IntegrationTypes.dll</HintPath>
     </Reference>
+    <Reference Include="Altec.Utilities.Data, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\okc-docld-doclink33\Altec.Utilities.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Altec.Utilities.TiffHelper, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3138182c5bb59fd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\okc-docld-doclink33\Altec.Utilities.TiffHelper.dll</HintPath>
