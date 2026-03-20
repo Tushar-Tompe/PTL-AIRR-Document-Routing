@@ -134,5 +134,14 @@ namespace Maxum.EDM.Properties {
                 return ((string)(this["QueueFolder"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\MSSPTCDLINK2\\SIRM_Queue\\Completed\\DoclinkValidationFailed")]
+        public string DoclinkValidationFailedFolder {
+            get {
+                return ((string)(this["DoclinkValidationFailedFolder"]));
+            }
+        }
     }
 }

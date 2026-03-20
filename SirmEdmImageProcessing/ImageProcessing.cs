@@ -444,6 +444,7 @@ namespace Maxum.EDM
                 else
                 {
                     Logger.Error("Step 3.8.4.17 Error: Doclink document is NOT valid for {WorkingFilePath}. Validation errors might be present.", _processCache.WorkingFilePath);
+                    MoveFileToDoclinkValidationFailedFolder();
                 }
 
             }
@@ -462,6 +463,44 @@ namespace Maxum.EDM
             }
             Logger.Info("Step 3.8.4.19: IndexDocumentInDoclink2 returning: {Result}", ret);
             return ret;
+        }
+
+        /// <summary>
+        /// Moves a file that failed Doclink validation to the configured DoclinkValidationFailedFolder,
+        /// logs the destination for auditing, and deletes the original so it is not retried every cycle.
+        /// </summary>
+        private void MoveFileToDoclinkValidationFailedFolder()
+        {
+            string failedFolder = _mySetings.DoclinkValidationFailedFolder;
+            if (string.IsNullOrWhiteSpace(failedFolder))
+            {
+                Logger.Warn("Step 3.8.4.17a Warning: DoclinkValidationFailedFolder is not configured. File will remain in queue: {WorkingFilePath}", _processCache.WorkingFilePath);
+                return;
+            }
+            try
+            {
+                if (!Directory.Exists(failedFolder))
+                {
+                    Logger.Info("Step 3.8.4.17b: Creating Doclink validation failed folder: {Folder}", failedFolder);
+                    Directory.CreateDirectory(failedFolder);
+                }
+                string destPath = Path.Combine(failedFolder, _processCache.WorkingFile);
+                if (File.Exists(_processCache.WorkingFilePath))
+                {
+                    Logger.Info("Step 3.8.4.17c: Copying file to Doclink validation failed folder: {Source} -> {Dest}", _processCache.WorkingFilePath, destPath);
+                    File.Copy(_processCache.WorkingFilePath, destPath, true);
+                }
+                if (File.Exists(destPath))
+                {
+                    File.Delete(_processCache.WorkingFilePath);
+                    CommonData.SetFileDestination(_processCache.WorkingFilePath, destPath);
+                    Logger.Info("Step 3.8.4.17d: File moved to Doclink validation failed folder and original deleted. Destination logged.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Step 3.8.4.17e Error: Failed to move file to Doclink validation failed folder. File remains in queue: {WorkingFilePath}", _processCache.WorkingFilePath);
+            }
         }
 
         /// <summary>

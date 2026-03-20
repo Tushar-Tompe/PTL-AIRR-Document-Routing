@@ -48,5 +48,8 @@
     <Setting Name="QueueFolder" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\Test\Q</Value>
     </Setting>
+    <Setting Name="DoclinkValidationFailedFolder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\\MSSPTCDLINK2\SIRM_Queue\Completed\DoclinkValidationFailed</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
